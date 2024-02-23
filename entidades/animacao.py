@@ -7,7 +7,7 @@ class animacao(pygame.sprite.Sprite):
         self.imagens = imagens
         self.indice_imagem = 0
         self.imagem = self.imagens[self.indice_imagem]
-        self.rect = self.imagem.get_rect(midbottom=posicao_inicial)
+        self.rect = self.imagem.get_rect(midleft=posicao_inicial)
         self.tempo_ultima_mudanca = pygame.time.get_ticks()
         self.intervalo_mudanca = 500  # Intervalo de mudança em milissegundos
 

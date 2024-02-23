@@ -7,7 +7,10 @@ from entidades import player
 class level():
     def __init__(self,surface:pygame.display) -> None:
         self.display_surface = surface
-        self.grid = pygame.sprite.Group()
+
+        self.vertices = pygame.sprite.Group()
+        self.arestas = pygame.sprite.Group()
+
         self.create_map()
         self.cerragaMenu()
 
@@ -15,7 +18,7 @@ class level():
         
 
     def procurar_vertice_por_id(self, identificador: int):
-        for vertice in self.grid:
+        for vertice in self.vertices:
             if vertice.id == identificador:
                 return vertice
         return None
@@ -27,7 +30,7 @@ class level():
 
             
             for node in self.dados_grafo['nodes']:
-                self.grid.add(vertice(node["pos"],int(node["id"])))
+                self.vertices.add(vertice(node["pos"],int(node["id"])))
             
             for chave,listaAdjacencia in self.dados_grafo['edges'].items():
                 ver1 = self.procurar_vertice_por_id(int(chave))
@@ -35,7 +38,7 @@ class level():
                 for item in listaAdjacencia:
                     ver2 = self.procurar_vertice_por_id(item)
                     if ver2 == None: continue
-                    self.grid.add(aresta(ver1,ver2))
+                    self.arestas.add(aresta(ver1,ver2))
 
         except FileNotFoundError:
             print("O arquivo não foi encontrado.")
@@ -51,13 +54,23 @@ class level():
         self.menu.add(menuLataral("Informação do Vértice",(100,150)))
         self.menu.add(menuLataral("Inventário",(100,450)))
 
+    
+
 
     def run(self):
         self.display_surface.fill((0,0,0))
-        self.grid.empty()
-        self.create_map()
-        self.grid.draw(self.display_surface)
+
+
+        self.vertices.draw(self.display_surface)
+        self.arestas.draw(self.display_surface)
+
         self.menu.draw(self.display_surface)
 
+        if self.player.novaLista: 
+            self.player.listAdjacencia = self.dados_grafo['edges'][f'{self.player.idVertici}']
+            self.player.novaLista = 0
+            
         self.player.update()
+        #self.click()
+
         
