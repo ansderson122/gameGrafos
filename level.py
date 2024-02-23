@@ -1,7 +1,8 @@
 import pygame
 import json
-from map.vertice import vertice,aresta
+from map import vertice,aresta
 from menuLateral.menuLateral import menuLataral
+from entidades import player
 
 class level():
     def __init__(self,surface:pygame.display) -> None:
@@ -9,6 +10,9 @@ class level():
         self.grid = pygame.sprite.Group()
         self.create_map()
         self.cerragaMenu()
+
+        self.player = player(self.display_surface)
+        
 
     def procurar_vertice_por_id(self, identificador: int):
         for vertice in self.grid:
@@ -54,3 +58,6 @@ class level():
         self.create_map()
         self.grid.draw(self.display_surface)
         self.menu.draw(self.display_surface)
+
+        self.player.update()
+        
