@@ -6,8 +6,8 @@ class aresta(pygame.sprite.Sprite):
         super().__init__()
 
         # Calcular o centro da linha
-        centro_linha = (((ver1.rect.x + ver2.rect.x ) // 2)+10, 
-                        ((ver1.rect.y + ver2.rect.y) // 2)+10)
+        centro_linha = (((ver1.rect.x + ver2.rect.x ) // 2)+25, 
+                        ((ver1.rect.y + ver2.rect.y) // 2)+25)
 
         # Calcular o tamanho da linha
         comprimento_linha = ((ver1.rect.x - ver2.rect.x )**2 + 

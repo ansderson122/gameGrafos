@@ -2,7 +2,8 @@ import pygame
 import json
 from map import vertice,aresta
 from menuLateral.menuLateral import menuLataral
-from entidades import player
+from entidades import *
+import random
 
 class level():
     def __init__(self,surface:pygame.display) -> None:
@@ -15,6 +16,7 @@ class level():
         self.cerragaMenu()
 
         self.player = player(self.display_surface)
+        self.crocodilo = crocodilo(self.display_surface)
         
 
     def procurar_vertice_por_id(self, identificador: int):
@@ -54,6 +56,23 @@ class level():
         self.menu.add(menuLataral("Informação do Vértice",(100,150)))
         self.menu.add(menuLataral("Inventário",(100,450)))
 
+    def moveMostros(self):
+        self.crocodilo.idVerticiDestino = random.choice(self.crocodilo.listAdjacencia)
+        ver = self.procurar_vertice_por_id(self.crocodilo.idVerticiDestino)
+        self.crocodilo.destino = ((ver.rect.x - 10,ver.rect.y - 30))
+
+    def carregaListaAdjacecia(self):
+        if self.player.novaLista: 
+            self.player.listAdjacencia = self.dados_grafo['edges'][f'{self.player.idVertici}']
+            self.player.novaLista = 0
+            self.moveMostros()
+        
+        if self.crocodilo.novaLista: 
+            self.crocodilo.listAdjacencia = self.dados_grafo['edges'][f'{self.crocodilo.idVertici}']
+            ver = self.procurar_vertice_por_id(self.crocodilo.idVertici)
+            self.crocodilo.novaLista = 0
+            self.crocodilo.rePos((ver.rect.x - 10,ver.rect.y - 30))
+
     
 
 
@@ -66,11 +85,9 @@ class level():
 
         self.menu.draw(self.display_surface)
 
-        if self.player.novaLista: 
-            self.player.listAdjacencia = self.dados_grafo['edges'][f'{self.player.idVertici}']
-            self.player.novaLista = 0
-            
+        self.carregaListaAdjacecia()
         self.player.update()
+        self.crocodilo.update()
         #self.click()
 
         
