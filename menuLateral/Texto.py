@@ -9,7 +9,10 @@ class Texto(pygame.sprite.Sprite):
         self.tamanho_fonte = tamanho_fonte
         self.largura_maxima = largura_maxima
 
+        
+        font = pygame.font.SysFont("arial", 36)
         self.fonte = pygame.font.Font(None,  self.tamanho_fonte)
+        
         self.texto,self.altura_total = self.renderizar_texto(texto, self.largura_maxima)
 
 
@@ -39,4 +42,4 @@ class Texto(pygame.sprite.Sprite):
         return superficie_texto,altura_total
 
     def updateTexto(self,novaTexto):
-        self.texto = self.renderizar_texto(novaTexto, self.largura_maxima)
+        self.texto,self.altura_total  = self.renderizar_texto(novaTexto, self.largura_maxima)

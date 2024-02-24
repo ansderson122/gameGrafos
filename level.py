@@ -14,12 +14,14 @@ class level():
         self.menu = pygame.sprite.Group()
 
         self.informa = menuLataral("Informação do Vértice",(100,150))
-
+        
         self.create_map()
-        self.cerragaMenu()
 
         self.player = player(self.display_surface,self.quatidadeAresta * 3)
         self.crocodilo = crocodilo(self.display_surface)
+
+        self.cerragaMenu()
+        self.tempo_ultima_mudanca = pygame.time.get_ticks()
         
 
     def procurar_vertice_por_id(self, identificador: int):
@@ -58,16 +60,130 @@ class level():
     def cerragaMenu(self):
         self.menu.empty()
         self.menu.add(self.informa)
-        self.menu.add(menuLataral("Inventário",(100,450)))
+        self.menu.add(self.player.invetario)
 
     def carregaInformacaoVertici(self,id):
         infor = self.dados_grafo["sobre"][f"{id}"] 
         self.informa.update()
-        self.informa.conteudo.empty()
+        self.informa.conteudo = []
+        self.informa.numeroBnt = 1
         self.informa.ultimoPossicao = 80
         for item in infor:
             self.informa.adicionarItem(item)
         self.cerragaMenu()
+
+    def buscaNoVertici(self,num):
+        for item in  self.informa.conteudo:
+            if item.numero == num:
+                return item
+        return None
+    
+    def get_input(self):
+        now = pygame.time.get_ticks()
+        keys = pygame.key.get_pressed()
+        intervalo_mudanca = 500  # Intervalo de mudança em milissegundos
+        con = 0
+
+        
+        if  now - self.tempo_ultima_mudanca > intervalo_mudanca:
+            self.tempo_ultima_mudanca = now
+
+            if keys[pygame.K_1]:
+                for i, elemento in enumerate(self.dados_grafo["sobre"][f'{self.player.idVertici}']):
+                    if "Esp" == elemento[0][:3] or elemento[0][:3] == "Erv":
+                        con += 1
+                    if con == 1:
+                        self.player.invetario.adicionarItem(self.dados_grafo["sobre"][f'{self.player.idVertici}'][i])
+                        del self.dados_grafo["sobre"][f'{self.player.idVertici}'][i]
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+
+            if keys[pygame.K_2]:
+                for i, elemento in enumerate(self.dados_grafo["sobre"][f'{self.player.idVertici}']):
+                    if "Esp" == elemento[0][:3] or elemento[0][:3] == "Erv":
+                        con += 1
+                    if con == 2:
+                        self.player.invetario.adicionarItem(self.dados_grafo["sobre"][f'{self.player.idVertici}'][i])
+                        del self.dados_grafo["sobre"][f'{self.player.idVertici}'][i]
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+            
+            if keys[pygame.K_3]:
+                for i, elemento in enumerate(self.dados_grafo["sobre"][f'{self.player.idVertici}']):
+                    if "Esp" == elemento[0][:3] or elemento[0][:3] == "Erv":
+                        con += 1
+                    if con == 3:
+                        self.player.invetario.adicionarItem(self.dados_grafo["sobre"][f'{self.player.idVertici}'][i])
+                        del self.dados_grafo["sobre"][f'{self.player.idVertici}'][i]
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+
+            if keys[pygame.K_6]:
+                for i, elemento in enumerate(self.player.invetario.conteudo):
+                    if "Esp" == elemento.item.dadosInicias[0][:3] or elemento.item.dadosInicias[0][:3] == "Erv":
+                        con += 1
+
+                    if con == 1: 
+                        self.dados_grafo["sobre"][f'{self.player.idVertici}'].append([elemento.item.dadosInicias[0],elemento.atk.dadosInicias[0],elemento.dur.dadosInicias[0]])
+                        print(self.dados_grafo["sobre"][f'{self.player.idVertici}'])
+                        print(self.player.invetario.conteudo)
+                        self.player.invetario.conteudo.remove(elemento)
+                        print(self.player.invetario.conteudo)
+
+                        self.player.invetario.numeroBnt -= 1
+                        self.player.invetario.ultimoPossicao -= elemento.item.texto.get_size()[1]
+
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+            
+            if keys[pygame.K_7]:
+                for i, elemento in enumerate(self.player.invetario.conteudo):
+                    if "Esp" == elemento.item.dadosInicias[0][:3] or elemento.item.dadosInicias[0][:3] == "Erv":
+                        con += 1
+
+                    if con == 2:    
+                        self.dados_grafo["sobre"][f'{self.player.idVertici}'].append([elemento.item.dadosInicias[0],elemento.atk.dadosInicias[0],elemento.dur.dadosInicias[0]])
+                        print(self.dados_grafo["sobre"][f'{self.player.idVertici}'])
+                        print(self.player.invetario.conteudo)
+                        self.player.invetario.conteudo.remove(elemento)
+                        print(self.player.invetario.conteudo)
+
+                        self.player.invetario.numeroBnt -= 1
+                        self.player.invetario.ultimoPossicao -= elemento.item.texto.get_size()[1]
+
+                        
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+                
+
+
+            if keys[pygame.K_8]:
+                for i, elemento in enumerate(self.player.invetario.conteudo):
+                    if "Esp" == elemento.item.dadosInicias[0][:3] or elemento.item.dadosInicias[0][:3] == "Erv":
+                        con += 1
+
+                    if con == 3:    
+                        self.dados_grafo["sobre"][f'{self.player.idVertici}'].append([elemento.item.dadosInicias[0],elemento.atk.dadosInicias[0],elemento.dur.dadosInicias[0]])
+                        print(self.dados_grafo["sobre"][f'{self.player.idVertici}'])
+                        print(self.player.invetario.conteudo)
+                        self.player.invetario.conteudo.remove(elemento)
+                        print(self.player.invetario.conteudo)
+
+                        
+                       
+                        self.player.invetario.numeroBnt -= 1
+                        self.player.invetario.ultimoPossicao -= elemento.item.texto.get_size()[1]
+                        self.carregaInformacaoVertici(self.player.idVertici)
+                        self.player.invetario.update()
+                        break  # Parar a iteração após remover a espada
+            
+            
+ 
 
     def moveMostros(self):
         self.crocodilo.idVerticiDestino = random.choice(self.crocodilo.listAdjacencia)
@@ -92,6 +208,7 @@ class level():
 
     def run(self):
         self.display_surface.fill((0,0,0))
+
 
 
         self.vertices.draw(self.display_surface)

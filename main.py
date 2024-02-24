@@ -3,10 +3,10 @@ from sys import exit
 from level import level
 
 pygame.init()
+
 tela = pygame.display.set_mode((1000,600))
 pygame.display.set_caption('Meu Joquin')
 relogio = pygame.time.Clock()
-
 level = level(tela)
 
 while True:
@@ -21,6 +21,8 @@ while True:
                 if vertice.rect.collidepoint(mouse_x, mouse_y):
                     level.player.idVerticiDestino = vertice.id
                     level.player.destino = (vertice.rect.x - 10 ,vertice.rect.y-20)
+        
+        level.get_input()
 
     level.run()
     

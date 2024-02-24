@@ -3,10 +3,13 @@ import os
 import math
 from entidades import animacao
 from menuLateral.Texto import Texto
+from menuLateral.menuLateral import menuLataral
 
 class player(pygame.sprite.Sprite):
     def __init__(self,surface,movimentosRestantes = 100,pos = (250,580)):
         super().__init__()
+        self.texto = Texto("",200)
+        self.invetario = menuLataral("Inventário",(100,450),"Soltar",6)
 
         self.surface = surface
         self.imagens= animacao(self.imagens_idle,pos)
@@ -31,22 +34,9 @@ class player(pygame.sprite.Sprite):
             idle.append(carrega)
         return idle
     
-    def texto(self,texto,pos):
-        
-        # Definir a cor do texto
-        cor_texto = (255, 255, 255)
-
-        # Criar uma instância da classe Font
-        fonte = pygame.font.Font(None, 36)  # None usa a fonte padrão do sistema, 36 é o tamanho da fonte
-
-        # Criar um objeto de texto
-        texto = fonte.render(texto, True, cor_texto)
-
-        # Posicionar o texto na tela
-        posicao_texto = texto.get_rect(center=pos)
-
-        return texto,posicao_texto
-
+    def get_input(self):
+        keys = pygame.key.get_pressed()
+    
     
     def update(self):
         self.imagens.mudar_imagem()
@@ -63,11 +53,11 @@ class player(pygame.sprite.Sprite):
                 self.novaLista = 1
                 self.movimentosRestantes -= 1
 
-        
-        texto, possicao = self.texto(f'Movimentos: {self.movimentosRestantes}',(850,10))
-        self.surface.blit(texto,possicao)
+        self.texto.updateTexto(f'Movimentos: {self.movimentosRestantes}')
+        self.surface.blit(self.texto.texto,(800,10))
 
-        texto, possicao = self.texto(f'Vida: {self.vida}',(600,10))
-        self.surface.blit(texto,possicao)
+        self.texto.updateTexto(f'Vida: {self.vida}')
+        self.surface.blit(self.texto.texto,(600,10))
+        self.invetario.update()
 
         self.surface.blit(self.imagens.imagem, self.rect)   
