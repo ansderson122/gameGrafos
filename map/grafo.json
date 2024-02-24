@@ -40,6 +40,27 @@
       "17":[16,11],
       "18":[16],
       "19":[14]
+    },
+    "sobre": {
+      "1": ["Praia"],
+      "2": ["Floresta"],
+      "3": ["Floresta"],
+      "4": ["Floresta"],
+      "5": ["Precipício"],
+      "6": ["Floresta", "Erva Curativa"],
+      "7": ["Floresta"],
+      "8": ["Poço de Piche", "Espada do Relâmpago"],
+      "9": ["Floresta", "Erva Curativa"],
+      "10": ["Floresta", "Espada da Lua"],
+      "11": ["Floresta"],
+      "12": ["Paredões de rochas", "Erva Curativa"],
+      "13": ["Paredões de rochas"],
+      "14": ["Areias movediças"],
+      "15": ["Montanhas","Arma: Espada do Sol" ],
+      "16": ["Montanhas", "Erva Curativa"],
+      "17": ["Montanhas"],
+      "18": ["Paredões de rochas","Tesouro" ],
+      "19": ["Floresta"]
     }
   }
   

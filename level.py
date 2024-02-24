@@ -11,6 +11,9 @@ class level():
 
         self.vertices = pygame.sprite.Group()
         self.arestas = pygame.sprite.Group()
+        self.menu = pygame.sprite.Group()
+
+        self.informa = menuLataral("Informação do Vértice",(100,150))
 
         self.create_map()
         self.cerragaMenu()
@@ -53,10 +56,18 @@ class level():
 
 
     def cerragaMenu(self):
-        self.menu = pygame.sprite.Group()
-
-        self.menu.add(menuLataral("Informação do Vértice",(100,150)))
+        self.menu.empty()
+        self.menu.add(self.informa)
         self.menu.add(menuLataral("Inventário",(100,450)))
+
+    def carregaInformacaoVertici(self,id):
+        infor = self.dados_grafo["sobre"][f"{id}"] 
+        self.informa.update()
+        self.informa.conteudo.empty()
+        self.informa.ultimoPossicao = 80
+        for item in infor:
+            self.informa.adicionarItem(item)
+        self.cerragaMenu()
 
     def moveMostros(self):
         self.crocodilo.idVerticiDestino = random.choice(self.crocodilo.listAdjacencia)
@@ -68,6 +79,7 @@ class level():
             self.player.listAdjacencia = self.dados_grafo['edges'][f'{self.player.idVertici}']
             self.player.novaLista = 0
             self.moveMostros()
+            self.carregaInformacaoVertici(self.player.idVertici)
         
         if self.crocodilo.novaLista: 
             self.crocodilo.listAdjacencia = self.dados_grafo['edges'][f'{self.crocodilo.idVertici}']

@@ -7,9 +7,10 @@ class Texto(pygame.sprite.Sprite):
 
         self.corTexto = (255,255,255)
         self.tamanho_fonte = tamanho_fonte
+        self.largura_maxima = largura_maxima
 
         self.fonte = pygame.font.Font(None,  self.tamanho_fonte)
-        self.texto = self.renderizar_texto(texto, largura_maxima)
+        self.texto,self.altura_total = self.renderizar_texto(texto, self.largura_maxima)
 
 
     def renderizar_texto(self,texto, largura_maxima):
@@ -28,11 +29,14 @@ class Texto(pygame.sprite.Sprite):
         
         linhas.append(linha_atual)
 
+        altura_total = len(linhas) * self.tamanho_fonte
+
         superficie_texto = pygame.Surface((largura_maxima, len(linhas) *  self.tamanho_fonte ), pygame.SRCALPHA)
         for i, linha in enumerate(linhas):
             texto_renderizado = self.fonte.render(linha, True,  self.corTexto)
             superficie_texto.blit(texto_renderizado, (0, i *  self.tamanho_fonte ))
 
-        return superficie_texto
+        return superficie_texto,altura_total
 
-   
+    def updateTexto(self,novaTexto):
+        self.texto = self.renderizar_texto(novaTexto, self.largura_maxima)
