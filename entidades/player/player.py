@@ -2,14 +2,18 @@ import pygame
 import os
 import math
 from entidades import animacao
+from menuLateral.Texto import Texto
 
 class player(pygame.sprite.Sprite):
-    def __init__(self,surface,pos = (250,580)):
+    def __init__(self,surface,movimentosRestantes = 100,pos = (250,580)):
         super().__init__()
 
         self.surface = surface
         self.imagens= animacao(self.imagens_idle,pos)
         self.rect = self.imagens.rect
+
+        self.movimentosRestantes = movimentosRestantes 
+        self.vida = 100
 
         self.destino = pos
         self.velocidade = 0.1
@@ -27,6 +31,21 @@ class player(pygame.sprite.Sprite):
             idle.append(carrega)
         return idle
     
+    def texto(self,texto,pos):
+        
+        # Definir a cor do texto
+        cor_texto = (255, 255, 255)
+
+        # Criar uma instância da classe Font
+        fonte = pygame.font.Font(None, 36)  # None usa a fonte padrão do sistema, 36 é o tamanho da fonte
+
+        # Criar um objeto de texto
+        texto = fonte.render(texto, True, cor_texto)
+
+        # Posicionar o texto na tela
+        posicao_texto = texto.get_rect(center=pos)
+
+        return texto,posicao_texto
 
     
     def update(self):
@@ -42,8 +61,13 @@ class player(pygame.sprite.Sprite):
                 self.idVertici = self.idVerticiDestino
                 self.idVerticiDestino = 0
                 self.novaLista = 1
+                self.movimentosRestantes -= 1
 
-                        
+        
+        texto, possicao = self.texto(f'Movimentos: {self.movimentosRestantes}',(850,10))
+        self.surface.blit(texto,possicao)
 
+        texto, possicao = self.texto(f'Vida: {self.vida}',(600,10))
+        self.surface.blit(texto,possicao)
 
         self.surface.blit(self.imagens.imagem, self.rect)   

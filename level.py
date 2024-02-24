@@ -15,7 +15,7 @@ class level():
         self.create_map()
         self.cerragaMenu()
 
-        self.player = player(self.display_surface)
+        self.player = player(self.display_surface,self.quatidadeAresta * 3)
         self.crocodilo = crocodilo(self.display_surface)
         
 
@@ -34,6 +34,7 @@ class level():
             for node in self.dados_grafo['nodes']:
                 self.vertices.add(vertice(node["pos"],int(node["id"])))
             
+            self.quatidadeAresta = 0
             for chave,listaAdjacencia in self.dados_grafo['edges'].items():
                 ver1 = self.procurar_vertice_por_id(int(chave))
                 if ver1 == None: continue
@@ -41,7 +42,8 @@ class level():
                     ver2 = self.procurar_vertice_por_id(item)
                     if ver2 == None: continue
                     self.arestas.add(aresta(ver1,ver2))
-
+                    self.quatidadeAresta +=1
+            self.quatidadeAresta = self.quatidadeAresta // 2
         except FileNotFoundError:
             print("O arquivo não foi encontrado.")
         except json.JSONDecodeError:
