@@ -36,6 +36,19 @@ class player(pygame.sprite.Sprite):
     
     def get_input(self):
         keys = pygame.key.get_pressed()
+
+    
+    def quatidadePossivelTesouro(self):
+        # Esse função calcula a quantitade de tesouro que o jogado poede transporta 
+        quantidade = 100
+        for item in self.invetario.conteudo:
+            if item.item.dadosInicias[0][:3] ==  "Esp":
+                quantidade -=  int(item.atk.dadosInicias[0]) # menos o atk da espada 
+            elif item.item.dadosInicias[0][:3] ==  "Erv":
+                quantidade -= 1 # menos uma erva 
+
+        quantidade -= (100 - self.vida)
+        return quantidade
     
     
     def update(self):

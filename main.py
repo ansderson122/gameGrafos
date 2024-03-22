@@ -14,15 +14,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            # Verificar colisão com os vértices
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            for vertice in level.vertices.sprites():
-                if vertice.rect.collidepoint(mouse_x, mouse_y):
-                    level.player.idVerticiDestino = vertice.id
-                    level.player.destino = (vertice.rect.x - 10 ,vertice.rect.y-20)
-        
-        level.get_input()
+   
+        level.eventos(event)
 
     level.run()
     

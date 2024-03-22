@@ -3,7 +3,7 @@ import pygame
 class Texto(pygame.sprite.Sprite):
     def __init__(self,texto:str,largura_maxima:int , tamanho_fonte = 35):
         super().__init__()
-        self.dadosInicias = (texto,largura_maxima)
+        self.dadosInicias = [texto,largura_maxima]
 
         self.corTexto = (255,255,255)
         self.tamanho_fonte = tamanho_fonte
