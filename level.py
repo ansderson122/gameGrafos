@@ -66,7 +66,7 @@ class level():
     def carregaInformacaoVertici(self,id):
         infor = self.dados_grafo["sobre"][f"{id}"] 
         self.informa.update()
-        self.informa.conteudo = []
+        self.informa.conteudo.empty()
         self.informa.numeroBnt = 1
         self.informa.ultimoPossicao = 80
         for item in infor:
@@ -99,7 +99,7 @@ class level():
                 if int(item.atk.dadosInicias[0]) > quantidadeDoPlayer:
                     resto = int(item.atk.dadosInicias[0]) - quantidadeDoPlayer
 
-                    self.player.invetario.conteudo[i].atk = Texto(str(quantidadeDoPlayer),25,20)
+                    self.player.invetario.carregaListaSprints()[i].atk = Texto(str(quantidadeDoPlayer),25,20)
        
                     v,possicao = self.verificar_tesouro_e_posicao()
                     if v:
@@ -141,8 +141,8 @@ class level():
             
             v,pos = self.verificar_tesouro_e_posicao_player()
             if v:
-                num = int(self.player.invetario.conteudo[pos].atk.dadosInicias[0])
-                self.player.invetario.conteudo[pos].atk = Texto(str(int(item[1]) + num),25,20)
+                num = int(self.player.invetario.carregaListaSprints()[pos].atk.dadosInicias[0])
+                self.player.invetario.carregaListaSprints()[pos].atk = Texto(str(int(item[1]) + num),25,20)
             else: 
                 self.player.invetario.adicionarItem(item)
             
@@ -164,7 +164,7 @@ class level():
         if len(self.player.invetario.conteudo) < possicao + 1:
             return
 
-        item = self.player.invetario.conteudo[possicao]
+        item = self.player.invetario.carregaListaSprints()[possicao]
 
         if item.item.dadosInicias[0]  == "Tesouro":
             quantidade = int(item.atk.dadosInicias[0])

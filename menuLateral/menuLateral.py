@@ -12,7 +12,7 @@ class menuLataral(pygame.sprite.Sprite):
     
         self.titulo = Texto(texto, 160)
         self.ultimoPossicao = self.titulo.altura_total + 10
-        self.conteudo = []
+        self.conteudo =  pygame.sprite.Group()
         
         self.image = pygame.Surface((200,300), pygame.SRCALPHA)
         self.image.fill(self.corFundo)
@@ -28,7 +28,7 @@ class menuLataral(pygame.sprite.Sprite):
 
     def adicionarItem(self,item):
         item1 = Item(item[0],item[1],item[2])
-        self.conteudo.append(item1)
+        self.conteudo.add(item1)
         self.update()
 
     def desenhaItens(self):
