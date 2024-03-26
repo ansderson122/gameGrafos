@@ -1,3 +1,4 @@
+from typing import Any
 import pygame
 
 from menuLateral.Texto import Texto
@@ -18,3 +19,8 @@ class Item(pygame.sprite.Sprite):
         self.numero = 0
 
 
+    def updateRect(self,pos,tamanha):
+        self.image = pygame.Surface(tamanha, pygame.SRCALPHA)
+        self.rect = self.image.get_rect(center = pos)
+        
+        

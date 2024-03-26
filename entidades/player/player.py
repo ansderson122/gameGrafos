@@ -9,7 +9,7 @@ class player(pygame.sprite.Sprite):
     def __init__(self,surface,movimentosRestantes = 100,pos = (250,580)):
         super().__init__()
         self.texto = Texto("",200)
-        self.invetario = menuLataral("Inventário",(100,450),"Soltar",6)
+        self.invetario = menuLataral("Inventário",(100,450),"Soltar")
 
         self.surface = surface
         self.imagens= animacao(self.imagens_idle,pos)

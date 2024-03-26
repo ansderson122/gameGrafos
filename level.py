@@ -193,40 +193,28 @@ class level():
         now = pygame.time.get_ticks()
         keys = pygame.key.get_pressed()
         intervalo_mudanca = 500  # Intervalo de mudança em milissegundos
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             # Verificar colisão com os vértices
-            mouse_x, mouse_y = pygame.mouse.get_pos()
+           
             for vertice in self.vertices.sprites():
                 if vertice.rect.collidepoint(mouse_x, mouse_y):
                     self.player.idVerticiDestino = vertice.id
                     self.player.destino = (vertice.rect.x - 10 ,vertice.rect.y-20)
+                    return
+
+            for index,item in enumerate(self.player.invetario.conteudo):
+                    if item.rect.collidepoint(mouse_x, mouse_y):
+                        self.soltarItemVertice(index)
+                        return
         
+            for index,item in enumerate(self.informa.conteudo):
+                if item.rect.collidepoint(mouse_x, mouse_y):
+                    if item.tipo == 0: break
+                    self.pegarItemVertice(index)
+                    return
 
-        
-        if  now - self.tempo_ultima_mudanca > intervalo_mudanca:
-            self.tempo_ultima_mudanca = now
-
-            if keys[pygame.K_1]:
-                self.pegarItemVertice(1)
-
-            elif keys[pygame.K_2]:
-               self.pegarItemVertice(2)
-            
-            elif keys[pygame.K_3]:
-                self.pegarItemVertice(3)
-
-            elif keys[pygame.K_6]:
-                self.soltarItemVertice(0)
-            
-            elif keys[pygame.K_7]:
-                self.soltarItemVertice(1)
-                
-            elif keys[pygame.K_8]:
-               self.soltarItemVertice(2)
-            
- 
 
     def moveMostros(self):
         self.crocodilo.idVerticiDestino = random.choice(self.crocodilo.listAdjacencia)

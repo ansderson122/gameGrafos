@@ -35,10 +35,13 @@ class menuLataral(pygame.sprite.Sprite):
         self.ultimoPossicao = self.titulo.altura_total + 35
         numeroBnt =  self.numeroBnt
         for item in self.conteudo:
+            
+            item.updateRect((100,self.ultimoPossicao + self.rect.y + 10),(200,item.item.altura_total))
             self.image.blit(item.item.texto, (50,self.ultimoPossicao))
             self.image.blit(item.atk.texto, (120,self.ultimoPossicao))
             self.image.blit(item.dur.texto, (155,self.ultimoPossicao))
-
+            
+            
             if item.tipo :
                 item.numero = numeroBnt
                 texto = Texto(str(numeroBnt), 25,20)
