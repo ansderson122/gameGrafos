@@ -1,6 +1,6 @@
 import pygame 
 import math
-
+import random
 
 class crocodilo(pygame.sprite.Sprite):
     def __init__(self,surface,pos = (500,300)):
@@ -23,7 +23,6 @@ class crocodilo(pygame.sprite.Sprite):
         self.listAdjacencia = []
         self.novaLista = 1
 
-    
     def rePos(self,pos):
         self.rect.x = pos[0]
         self.rect.y = pos[1]

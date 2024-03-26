@@ -6,6 +6,7 @@ from menuLateral.Texto import Texto
 from entidades import *
 import random
 
+
 class level():
     def __init__(self,surface:pygame.display) -> None:
         self.display_surface = surface
@@ -22,7 +23,10 @@ class level():
         self.crocodilo = crocodilo(self.display_surface)
 
         self.cerragaMenu()
-        self.tempo_ultima_mudanca = pygame.time.get_ticks()
+
+       
+        self.combate = Combate()
+        self.estaEmCombate = 0
         
 
     def procurar_vertice_por_id(self, identificador: int):
@@ -190,9 +194,6 @@ class level():
 
     
     def eventos(self,event):
-        now = pygame.time.get_ticks()
-        keys = pygame.key.get_pressed()
-        intervalo_mudanca = 500  # Intervalo de mudança em milissegundos
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -214,6 +215,10 @@ class level():
                     if item.tipo == 0: break
                     self.pegarItemVertice(index)
                     return
+                
+        if self.estaEmCombate:
+            self.combate.update(self.player.invetario.conteudo,event)
+
 
 
     def moveMostros(self):
@@ -227,14 +232,26 @@ class level():
             self.player.novaLista = 0
             self.moveMostros()
             self.carregaInformacaoVertici(self.player.idVertici)
+            self.detectarCombate()
         
         if self.crocodilo.novaLista: 
             self.crocodilo.listAdjacencia = self.dados_grafo['edges'][f'{self.crocodilo.idVertici}']
             ver = self.procurar_vertice_por_id(self.crocodilo.idVertici)
             self.crocodilo.novaLista = 0
             self.crocodilo.rePos((ver.rect.x - 10,ver.rect.y - 30))
+            self.detectarCombate()
 
-    
+    def detectarCombate(self):
+        if self.player.rect.colliderect(self.crocodilo.rect):
+            self.player.rect.x -= 30
+            self.crocodilo.rect.x += 30
+            self.estaEmCombate = 1
+            self.combate.adicionaCombate(self.player, self.crocodilo)
+        else :
+            self.estaEmCombate = 0
+
+
+
 
 
     def run(self):
@@ -250,6 +267,8 @@ class level():
         self.carregaListaAdjacecia()
         self.player.update()
         self.crocodilo.update()
+       
+       
         #self.click()
 
         
