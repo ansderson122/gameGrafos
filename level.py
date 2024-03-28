@@ -256,6 +256,7 @@ class level():
 
     def run(self):
         self.display_surface.fill((0,0,0))
+        self.combate.contraAtaque()
 
 
 
